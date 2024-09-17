@@ -12,8 +12,8 @@ public class Canvas extends JFrame {
     private BufferedImage barrasBuffer;
 
     public Canvas(int width, int height) {
-        pastelBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        barrasBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        pastelBuffer = new BufferedImage(width - 200, height, BufferedImage.TYPE_INT_ARGB);
+        barrasBuffer = new BufferedImage(width - 200, height, BufferedImage.TYPE_INT_ARGB);
         setTitle("Paisaje");
         setSize(width, height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,9 +30,8 @@ public class Canvas extends JFrame {
         capitalCities.put("Argentina", 20);
         capitalCities.put("Mexico 2", 20);
         capitalCities.put("Argentina 3", 20);
-        Cake cake = new Cake(pastelBuffer, width, height, capitalCities);
-        Bars bars = new Bars(barrasBuffer, width, height, capitalCities);
-        add(cake);
+        Cake cake = new Cake(pastelBuffer, width - 200, height, capitalCities);
+        Bars bars = new Bars(barrasBuffer, width - 200, height, capitalCities);
         add(bars);
         setVisible(true);
     }
