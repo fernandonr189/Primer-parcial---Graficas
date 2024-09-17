@@ -6,9 +6,8 @@ import java.awt.image.BufferedImage;
 import java.util.Map;
 
 import static java.lang.Math.ceil;
-import static java.lang.Math.floor;
 
-public class Pastel extends JPanel {
+public class Cake extends JPanel {
 
     private final BufferedImage bufferedImage;
     private final int width, height;
@@ -19,9 +18,9 @@ public class Pastel extends JPanel {
     private final int radius = 250;
     private final Color[] colors = {Color.RED, Color.ORANGE, Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA, Color.PINK};
     private int currentPosition = 0;
-    private int positionDelta;
+    private final int positionDelta;
 
-    public Pastel(BufferedImage _bufferedImage, int _width, int _height, Map<String, Integer> _data) {
+    public Cake(BufferedImage _bufferedImage, int _width, int _height, Map<String, Integer> _data) {
         this.bufferedImage = _bufferedImage;
         this.width = _width;
         this.height = _height;
@@ -46,7 +45,6 @@ public class Pastel extends JPanel {
 
         int index = 0;
         for(Map.Entry<String, Integer> entry: data.entrySet()) {
-            //System.out.println(entry.getKey() + " " + entry.getValue());
             GradientPaint gradient = new GradientPaint(0, 0, colors[index], getWidth(), getHeight(), colors[index + 1]);
             paintSection(graphics2D, entry, gradient);
             paintIndicator(graphics2D, entry, gradient);

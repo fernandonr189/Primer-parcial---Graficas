@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 
-public class Barras extends JPanel {
+public class Bars extends JPanel {
     private final BufferedImage bufferedImage;
     private final int width, height;
     private final Map<String, Integer> data;
@@ -13,7 +13,7 @@ public class Barras extends JPanel {
     private final int positionDelta;
     private int currentPosition = 50;
 
-    public Barras(BufferedImage _bufferedImage, int _width, int _height, Map<String, Integer> _data) {
+    public Bars(BufferedImage _bufferedImage, int _width, int _height, Map<String, Integer> _data) {
         this.bufferedImage = _bufferedImage;
         this.width = _width;
         this.height = _height;
