@@ -97,15 +97,11 @@ public class Canvas extends JFrame {
 
                 switch (selectedElement) {
                     case "Barras":
-                        add(scrollPane);
-                        add(comboBox);
                         remove(cake);
                         add(bars);
                         repaint();
                         break;
                     case "Pastel":
-                        add(scrollPane);
-                        add(comboBox);
                         remove(bars);
                         add(cake);
                         repaint();
@@ -135,6 +131,7 @@ public class Canvas extends JFrame {
         if(cake != null && bars != null) {
             cake.setData(this.data);
             bars.setData(this.data);
+            repaint();
         }
     }
 
