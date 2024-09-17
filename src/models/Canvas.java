@@ -19,6 +19,14 @@ public class Canvas extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        Map<String, Integer> capitalCities = getCities();
+        Cake cake = new Cake(pastelBuffer, width - 200, height, capitalCities);
+        Bars bars = new Bars(barrasBuffer, width - 200, height, capitalCities);
+        add(bars);
+        setVisible(true);
+    }
+
+    private Map<String, Integer> getCities() {
         Map<String, Integer> capitalCities = new HashMap<String, Integer>();
 
         // Add keys and values (Country, City)
@@ -30,11 +38,9 @@ public class Canvas extends JFrame {
         capitalCities.put("Argentina", 20);
         capitalCities.put("Mexico 2", 20);
         capitalCities.put("Argentina 3", 20);
-        Cake cake = new Cake(pastelBuffer, width - 200, height, capitalCities);
-        Bars bars = new Bars(barrasBuffer, width - 200, height, capitalCities);
-        add(bars);
-        setVisible(true);
+        return capitalCities;
     }
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);

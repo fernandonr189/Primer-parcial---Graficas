@@ -43,6 +43,7 @@ public class Bars extends JPanel {
             drawBar(graphics2D, entry);
             index++;
         }
+        currentPosition = 50;
         g.drawImage(bufferedImage, 0, 0, this);
     }
 
