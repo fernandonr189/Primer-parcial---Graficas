@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 
+import static java.lang.Math.ceil;
+import static java.lang.Math.floor;
+
 public class Pastel extends JPanel {
 
     private BufferedImage bufferedImage;
@@ -14,7 +17,7 @@ public class Pastel extends JPanel {
     private double currentAngle = 0;
     private Point center;
     private final int radius = 250;
-    private final Color[] colors = {Color.RED, Color.ORANGE, Color.BLUE, Color.CYAN, Color.GREEN};
+    private final Color[] colors = {Color.RED, Color.ORANGE, Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA, Color.PINK};
 
     public Pastel(BufferedImage _bufferedImage, int _width, int _height, Map<String, Integer> _data) {
         this.bufferedImage = _bufferedImage;
@@ -61,6 +64,6 @@ public class Pastel extends JPanel {
     }
 
     private int radianToDegrees(double radians) {
-        return (int) (radians * 180 / Math.PI);
+        return (int) ceil(radians * 180 / Math.PI);
     }
 }

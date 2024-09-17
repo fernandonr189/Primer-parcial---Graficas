@@ -25,6 +25,8 @@ public class Canvas extends JFrame {
         capitalCities.put("Germany", 20);
         capitalCities.put("Norway", 30);
         capitalCities.put("USA", 40);
+        capitalCities.put("Mexico", 20);
+        capitalCities.put("Argentina", 20);
 
         Pastel pastel = new Pastel(pastelBuffer, width, height, capitalCities);
         add(pastel);
