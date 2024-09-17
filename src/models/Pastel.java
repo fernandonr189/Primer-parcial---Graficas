@@ -14,7 +14,7 @@ public class Pastel extends JPanel {
     private double currentAngle = 0;
     private Point center;
     private final int radius = 250;
-    private final Color[] colors = {Color.RED, Color.ORANGE, Color.BLUE, Color.YELLOW};
+    private final Color[] colors = {Color.RED, Color.ORANGE, Color.BLUE, Color.CYAN, Color.GREEN};
 
     public Pastel(BufferedImage _bufferedImage, int _width, int _height, Map<String, Integer> _data) {
         this.bufferedImage = _bufferedImage;
@@ -40,38 +40,27 @@ public class Pastel extends JPanel {
         int index = 0;
         for(Map.Entry<String, Integer> entry: data.entrySet()) {
             System.out.println(entry.getKey() + " " + entry.getValue());
-            paintSection(graphics2D, entry, colors[index]);
+            GradientPaint gradient = new GradientPaint(0, 0, colors[index], getWidth(), getHeight(), colors[index + 1]);
+            paintSection(graphics2D, entry, gradient);
             index++;
         }
         g.drawImage(bufferedImage, 0, 0, this);
     }
 
-    private void paintSection(Graphics2D graphics2D, Map.Entry<String, Integer> entry, Color color) {
+    private void paintSection(Graphics2D graphics2D, Map.Entry<String, Integer> entry, GradientPaint gradient) {
         double angleDelta = (entry.getValue() * 2 * Math.PI) / dataTotal;
-
-        Point startingPoint = new Point(
-                (int) (radius * Math.cos(currentAngle) + center.x),
-                (int) (radius * Math.sin(currentAngle) + center.y)
-        );
-
-        Point finishingPoint = new Point(
-                (int) (radius * Math.cos(currentAngle + angleDelta) + center.x),
-                (int) (radius * Math.sin(currentAngle + angleDelta) + center.y));
-
-        graphics2D.setColor(color);
-
-        Polygon shape = new Polygon(
-                new int[]{
-                        center.x,
-                        startingPoint.x,
-                        finishingPoint.x},
-                new int[]{
-                        center.y,
-                        startingPoint.y,
-                        finishingPoint.y},
-                3);
-        graphics2D.fillPolygon(shape);
-
+        graphics2D.setPaint(gradient);
+        graphics2D.fillArc(
+                center.x - radius,
+                center.y - radius,
+                radius * 2,
+                radius * 2,
+                radianToDegrees(currentAngle),
+                radianToDegrees(angleDelta));
         currentAngle = currentAngle + angleDelta;
+    }
+
+    private int radianToDegrees(double radians) {
+        return (int) (radians * 180 / Math.PI);
     }
 }
