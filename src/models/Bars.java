@@ -9,11 +9,13 @@ import java.util.Random;
 public class Bars extends JPanel {
     private final BufferedImage bufferedImage;
     private final int width, height;
-    private final Map<String, Integer> data;
+
+    private Map<String, Integer> data;
+    private boolean isUpdating = false;
+
     private int maxValue = 0;
     private final int positionDelta;
     private int currentPosition = 50;
-
     public Bars(BufferedImage _bufferedImage, int _width, int _height, Map<String, Integer> _data) {
         this.bufferedImage = _bufferedImage;
         this.width = _width;
@@ -32,10 +34,22 @@ public class Bars extends JPanel {
     }
 
     @Override
+    public void update(Graphics g) {
+        super.update(g);
+        isUpdating = true;
+        paintComponent(g);
+    }
+
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         Graphics2D graphics2D = bufferedImage.createGraphics();
+        if(isUpdating) {
+            graphics2D.setColor(Color.BLACK);
+            graphics2D.fillRect(0, 0, width, height);
+            isUpdating = false;
+        }
         drawAxis(graphics2D);
         int index = 0;
         for(Map.Entry<String, Integer> entry: data.entrySet()) {
@@ -63,7 +77,9 @@ public class Bars extends JPanel {
         graphics2D.drawString(entry.getKey(), currentPosition + 15, height - 65);
         currentPosition += positionDelta;
     }
+
     private void drawAxis(Graphics2D graphics2D) {
+        graphics2D.setColor(Color.WHITE);
         graphics2D.drawRect(20, 20, width - 40, height - 40);
         graphics2D.drawLine(40, 50, 40, height - 40);
         graphics2D.drawLine(40, 50, 35, 55);
@@ -73,7 +89,6 @@ public class Bars extends JPanel {
         graphics2D.drawLine(width - 50, height - 40, width - 55, height - 45);
         graphics2D.drawLine(width - 50, height - 40, width - 55, height - 35);
     }
-
     public static BufferedImage generateRandomShapeTexture(int width, int height) {
         BufferedImage texture = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = texture.createGraphics();
@@ -104,5 +119,17 @@ public class Bars extends JPanel {
         }
 
         g2d.fillPolygon(polygon);
+    }
+
+    public void setData(Map<String, Integer> data) {
+        this.data = data;
+        maxValue = 0;
+        for(Map.Entry<String, Integer> entry: data.entrySet()) {
+            if(entry.getValue() > maxValue) {
+                this.maxValue = entry.getValue();
+            }
+        }
+        isUpdating = true;
+        repaint();
     }
 }

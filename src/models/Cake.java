@@ -11,7 +11,7 @@ public class Cake extends JPanel {
 
     private final BufferedImage bufferedImage;
     private final int width, height;
-    private final Map<String, Integer> data;
+    private Map<String, Integer> data;
     private int dataTotal = 0;
     private double currentAngle = 0;
     private final Point center;
@@ -19,6 +19,7 @@ public class Cake extends JPanel {
     private final Color[] colors = {Color.RED, Color.ORANGE, Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA, Color.PINK};
     private int currentPosition = 0;
     private final int positionDelta;
+    private boolean isUpdating = false;
 
     public Cake(BufferedImage _bufferedImage, int _width, int _height, Map<String, Integer> _data) {
         this.bufferedImage = _bufferedImage;
@@ -37,10 +38,22 @@ public class Cake extends JPanel {
     }
 
     @Override
+    public void update(Graphics g) {
+        super.update(g);
+        isUpdating = true;
+        paintComponent(g);
+    }
+
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         Graphics2D graphics2D = bufferedImage.createGraphics();
+        if(isUpdating) {
+            graphics2D.setColor(Color.BLACK);
+            graphics2D.fillRect(0, 0, width, height);
+            isUpdating = false;
+        }
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         int index = 0;
@@ -79,5 +92,17 @@ public class Cake extends JPanel {
 
     private int radianToDegrees(double radians) {
         return (int) ceil(radians * 180 / Math.PI);
+    }
+
+    public void setData(Map<String, Integer> data) {
+        this.data = data;
+        isUpdating = true;
+        currentPosition = 0;
+        currentAngle = 0;
+        dataTotal = 0;
+        for(Map.Entry<String, Integer> entry: data.entrySet()) {
+            dataTotal += entry.getValue();
+        }
+        repaint();
     }
 }
