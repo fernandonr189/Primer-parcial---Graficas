@@ -27,6 +27,7 @@ public class Pastel extends JPanel {
         this.height = _height;
         this.data = _data;
         this.positionDelta = (width - 50) / data.size();
+        setBackground(Color.BLACK);
         for(Map.Entry<String, Integer> entry: data.entrySet()) {
             dataTotal += entry.getValue();
         }
@@ -69,9 +70,9 @@ public class Pastel extends JPanel {
 
     private void paintIndicator(Graphics2D graphics2D, Map.Entry<String, Integer> entry, GradientPaint gradient) {
         graphics2D.setPaint(gradient);
-        graphics2D.fillRect(currentPosition, height - 20, 20, 20);
+        graphics2D.fillRect(currentPosition + 5, height - 25, 20, 20);
         graphics2D.setColor(Color.WHITE);
-        graphics2D.drawString(entry.getKey(), currentPosition + 20, height - 5);
+        graphics2D.drawString(entry.getKey(), currentPosition + 30, height - 10);
         currentPosition += positionDelta;
     }
 
