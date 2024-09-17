@@ -10,20 +10,23 @@ import static java.lang.Math.floor;
 
 public class Pastel extends JPanel {
 
-    private BufferedImage bufferedImage;
-    private int width, height;
-    private Map<String, Integer> data;
+    private final BufferedImage bufferedImage;
+    private final int width, height;
+    private final Map<String, Integer> data;
     private int dataTotal = 0;
     private double currentAngle = 0;
-    private Point center;
+    private final Point center;
     private final int radius = 250;
     private final Color[] colors = {Color.RED, Color.ORANGE, Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA, Color.PINK};
+    private int currentPosition = 0;
+    private int positionDelta;
 
     public Pastel(BufferedImage _bufferedImage, int _width, int _height, Map<String, Integer> _data) {
         this.bufferedImage = _bufferedImage;
         this.width = _width;
         this.height = _height;
         this.data = _data;
+        this.positionDelta = (width - 50) / data.size();
         for(Map.Entry<String, Integer> entry: data.entrySet()) {
             dataTotal += entry.getValue();
         }
@@ -45,6 +48,7 @@ public class Pastel extends JPanel {
             System.out.println(entry.getKey() + " " + entry.getValue());
             GradientPaint gradient = new GradientPaint(0, 0, colors[index], getWidth(), getHeight(), colors[index + 1]);
             paintSection(graphics2D, entry, gradient);
+            paintIndicator(graphics2D, entry, gradient);
             index++;
         }
         g.drawImage(bufferedImage, 0, 0, this);
@@ -61,6 +65,14 @@ public class Pastel extends JPanel {
                 radianToDegrees(currentAngle),
                 radianToDegrees(angleDelta));
         currentAngle = currentAngle + angleDelta;
+    }
+
+    private void paintIndicator(Graphics2D graphics2D, Map.Entry<String, Integer> entry, GradientPaint gradient) {
+        graphics2D.setPaint(gradient);
+        graphics2D.fillRect(currentPosition, height - 20, 20, 20);
+        graphics2D.setColor(Color.WHITE);
+        graphics2D.drawString(entry.getKey(), currentPosition + 20, height - 5);
+        currentPosition += positionDelta;
     }
 
     private int radianToDegrees(double radians) {
