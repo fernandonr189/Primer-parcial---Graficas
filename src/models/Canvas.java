@@ -28,11 +28,12 @@ public class Canvas extends JFrame {
         capitalCities.put("USA", 40);
         capitalCities.put("Mexico", 20);
         capitalCities.put("Argentina", 20);
+        capitalCities.put("Mexico 2", 20);
+        capitalCities.put("Argentina 3", 20);
         Cake cake = new Cake(pastelBuffer, width, height, capitalCities);
         Bars bars = new Bars(barrasBuffer, width, height, capitalCities);
         add(cake);
         add(bars);
-        cake.setVisible(false);
         setVisible(true);
     }
     @Override

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Map;
+import java.util.Random;
 
 public class Bars extends JPanel {
     private final BufferedImage bufferedImage;
@@ -47,7 +48,13 @@ public class Bars extends JPanel {
 
     private void drawBar(Graphics2D graphics2D, Map.Entry<String, Integer> entry) {
         int maxHeight = height - 120;
-        graphics2D.setColor(Color.RED);
+
+        TexturePaint texturePaint = new TexturePaint(
+                generateRandomShapeTexture((positionDelta - 10), (positionDelta - 10)),
+                new Rectangle(0, 0, (positionDelta - 10), (positionDelta - 10))
+        );
+
+        graphics2D.setPaint(texturePaint);
         graphics2D.fillRect(currentPosition, height - 50 - (entry.getValue() * maxHeight / maxValue), positionDelta - 10, (entry.getValue() * maxHeight / maxValue));
         graphics2D.setColor(Color.BLACK);
         graphics2D.fillRect(currentPosition + 8, height - 80, positionDelta - 30, 20);
@@ -64,5 +71,37 @@ public class Bars extends JPanel {
         graphics2D.drawLine(40, height - 40, width - 50, height - 40);
         graphics2D.drawLine(width - 50, height - 40, width - 55, height - 45);
         graphics2D.drawLine(width - 50, height - 40, width - 55, height - 35);
+    }
+
+    public static BufferedImage generateRandomShapeTexture(int width, int height) {
+        BufferedImage texture = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2d = texture.createGraphics();
+        Random random = new Random();
+
+        Color bgColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+        g2d.setColor(bgColor);
+        g2d.fillRect(0, 0, width, height);
+
+        for (int i = 0; i < 10; i++) {
+            drawRandomPolygon(g2d, width, height, random);
+        }
+
+        g2d.dispose();
+        return texture;
+    }
+
+    private static void drawRandomPolygon(Graphics2D g2d, int width, int height, Random random) {
+        Color color = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+        g2d.setColor(color);
+
+        int sides = 3 + random.nextInt(4); // Between 3 and 6 sides
+        Polygon polygon = new Polygon();
+        for (int i = 0; i < sides; i++) {
+            int x = random.nextInt(width);
+            int y = random.nextInt(height);
+            polygon.addPoint(x, y);
+        }
+
+        g2d.fillPolygon(polygon);
     }
 }
