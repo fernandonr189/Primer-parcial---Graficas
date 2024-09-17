@@ -46,7 +46,7 @@ public class Pastel extends JPanel {
 
         int index = 0;
         for(Map.Entry<String, Integer> entry: data.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue());
+            //System.out.println(entry.getKey() + " " + entry.getValue());
             GradientPaint gradient = new GradientPaint(0, 0, colors[index], getWidth(), getHeight(), colors[index + 1]);
             paintSection(graphics2D, entry, gradient);
             paintIndicator(graphics2D, entry, gradient);
