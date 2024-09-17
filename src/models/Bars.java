@@ -57,7 +57,6 @@ public class Bars extends JPanel {
         drawAxis(graphics2D);
         int index = 0;
         for(Map.Entry<String, Integer> entry: data.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue());
             drawBar(graphics2D, entry);
             index++;
         }
@@ -68,7 +67,6 @@ public class Bars extends JPanel {
     private void drawBackgroundImage(Graphics2D g) {
         try {
             backgroundImage = ImageIO.read(new File("src/images/dark_background.png"));
-            System.out.println("Image loaded");
         } catch (IOException e) {
             System.out.println("Could not load image");
         }

@@ -95,7 +95,6 @@ public class Cake extends JPanel {
     private void drawBackgroundImage(Graphics2D g) {
         try {
             backgroundImage = ImageIO.read(new File("src/images/dark_background.png"));
-            System.out.println("Image loaded");
         } catch (IOException e) {
             System.out.println("Could not load image");
         }
