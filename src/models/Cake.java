@@ -1,14 +1,17 @@
 package models;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 import static java.lang.Math.ceil;
 
 public class Cake extends JPanel {
-
+    private BufferedImage backgroundImage;
     private final BufferedImage bufferedImage;
     private final int width, height;
     private Map<String, Integer> data;
@@ -19,7 +22,7 @@ public class Cake extends JPanel {
     private final Color[] colors = {Color.RED, Color.ORANGE, Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA, Color.PINK};
     private int currentPosition = 0;
     private final int positionDelta;
-    private boolean isUpdating = false;
+    private boolean isUpdating = true;
 
     public Cake(BufferedImage _bufferedImage, int _width, int _height, Map<String, Integer> _data) {
         this.bufferedImage = _bufferedImage;
@@ -50,8 +53,7 @@ public class Cake extends JPanel {
 
         Graphics2D graphics2D = bufferedImage.createGraphics();
         if(isUpdating) {
-            graphics2D.setColor(Color.BLACK);
-            graphics2D.fillRect(0, 0, width, height);
+            drawBackgroundImage(graphics2D);
             isUpdating = false;
         }
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -88,6 +90,16 @@ public class Cake extends JPanel {
         graphics2D.setColor(Color.WHITE);
         graphics2D.drawString(entry.getKey(), currentPosition + 30, height - 10);
         currentPosition += positionDelta;
+    }
+
+    private void drawBackgroundImage(Graphics2D g) {
+        try {
+            backgroundImage = ImageIO.read(new File("src/images/dark_background.png"));
+            System.out.println("Image loaded");
+        } catch (IOException e) {
+            System.out.println("Could not load image");
+        }
+        g.drawImage(backgroundImage, 0, 0, width, height, this);
     }
 
     private int radianToDegrees(double radians) {

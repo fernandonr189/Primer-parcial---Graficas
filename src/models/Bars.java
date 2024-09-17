@@ -1,17 +1,22 @@
 package models;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.Buffer;
 import java.util.Map;
 import java.util.Random;
 
 public class Bars extends JPanel {
     private final BufferedImage bufferedImage;
+    private BufferedImage backgroundImage;
     private final int width, height;
 
     private Map<String, Integer> data;
-    private boolean isUpdating = false;
+    private boolean isUpdating = true;
 
     private int maxValue = 0;
     private final int positionDelta;
@@ -46,8 +51,7 @@ public class Bars extends JPanel {
 
         Graphics2D graphics2D = bufferedImage.createGraphics();
         if(isUpdating) {
-            graphics2D.setColor(Color.BLACK);
-            graphics2D.fillRect(0, 0, width, height);
+            drawBackgroundImage(graphics2D);
             isUpdating = false;
         }
         drawAxis(graphics2D);
@@ -59,6 +63,16 @@ public class Bars extends JPanel {
         }
         currentPosition = 50;
         g.drawImage(bufferedImage, 0, 0, this);
+    }
+
+    private void drawBackgroundImage(Graphics2D g) {
+        try {
+            backgroundImage = ImageIO.read(new File("src/images/dark_background.png"));
+            System.out.println("Image loaded");
+        } catch (IOException e) {
+            System.out.println("Could not load image");
+        }
+        g.drawImage(backgroundImage, 0, 0, width, height, this);
     }
 
     private void drawBar(Graphics2D graphics2D, Map.Entry<String, Integer> entry) {
